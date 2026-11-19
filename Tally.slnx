@@ -3,4 +3,8 @@
     <Project Path="src/Tally.Domain/Tally.Domain.csproj" />
     <Project Path="src/Tally.Web/Tally.Web.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Tally.IntegrationTests/Tally.IntegrationTests.csproj" />
+    <Project Path="tests/Tally.UnitTests/Tally.UnitTests.csproj" />
+  </Folder>
 </Solution>

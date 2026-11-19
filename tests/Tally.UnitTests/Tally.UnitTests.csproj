@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Tally.Domain\Tally.Domain.csproj" />
+  </ItemGroup>
+</Project>
