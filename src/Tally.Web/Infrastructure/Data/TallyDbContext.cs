@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tally.Domain;
@@ -9,10 +10,16 @@ namespace Tally.Web.Infrastructure.Data;
 /// small subclass so it can keep its own migration history (see SqliteTallyDbContext and
 /// PostgresTallyDbContext).
 /// </summary>
-public abstract class TallyDbContext(DbContextOptions options) : DbContext(options)
+public abstract class TallyDbContext(DbContextOptions options) : DbContext(options), IDataProtectionKeyContext
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<ExpenseClaim> Claims => Set<ExpenseClaim>();
+
+    /// <summary>
+    /// Keys that sign auth cookies and antiforgery tokens. Stored in the database so sign-ins
+    /// survive container restarts and work across more than one instance.
+    /// </summary>
+    public DbSet<DataProtectionKey> DataProtectionKeys => Set<DataProtectionKey>();
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {

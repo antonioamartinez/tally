@@ -65,7 +65,7 @@ api.MapAuthEndpoints();
 api.MapClaimEndpoints();
 
 app.MapOpenApi();
-if (app.Environment.IsDevelopment())
+if (app.Configuration.GetValue("ApiDocs:Enabled", app.Environment.IsDevelopment()))
 {
     app.MapScalarApiReference();
 }

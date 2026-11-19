@@ -1,6 +1,6 @@
 @page
 @model Tally.Web.Pages.Account.LoginModel
-@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
+@inject IConfiguration Config
 @{
     ViewData["Title"] = "Sign in";
 }
@@ -12,7 +12,7 @@
     <input type="hidden" asp-for="ReturnUrl" />
     <button type="submit" class="button">Sign in</button>
 </form>
-@if (Env.IsDevelopment())
+@if (Config.GetValue<bool>("Database:SeedDemoData"))
 {
     <p class="hint">Demo accounts: <code>employee@tally.local</code> and <code>approver@tally.local</code>,
         password <code>tally-demo-password</code>.</p>

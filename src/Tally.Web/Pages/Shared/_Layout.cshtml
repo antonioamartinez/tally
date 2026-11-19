@@ -1,4 +1,5 @@
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
+@inject IConfiguration Config
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +19,7 @@
             {
                 <a asp-page="/Reviews/Index">Review queue</a>
             }
-            @if (Env.IsDevelopment())
+            @if (Config.GetValue("ApiDocs:Enabled", Env.IsDevelopment()))
             {
                 <a href="/scalar">API docs</a>
             }

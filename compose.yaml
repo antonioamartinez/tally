@@ -1,0 +1,34 @@
+# Local demo: the app on Postgres, with demo data and API docs turned on.
+# Not a production deployment; the secrets below are placeholders for a laptop.
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: tally
+      POSTGRES_PASSWORD: tally
+      POSTGRES_DB: tally
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tally -d tally"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      Database__Provider: Postgres
+      ConnectionStrings__Tally: Host=db;Database=tally;Username=tally;Password=tally
+      Database__MigrateOnStartup: "true"
+      Database__SeedDemoData: "true"
+      ApiDocs__Enabled: "true"
+      Jwt__SigningKey: local-compose-demo-key-not-for-real-use-0123456789
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

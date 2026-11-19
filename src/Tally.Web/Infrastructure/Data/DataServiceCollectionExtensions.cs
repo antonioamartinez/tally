@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 
 namespace Tally.Web.Infrastructure.Data;
@@ -25,8 +26,14 @@ public static class DataServiceCollectionExtensions
             _ => throw new InvalidOperationException($"Unsupported database provider '{options.Provider}'."),
         };
 
-        services.AddHealthChecks().AddDbContextCheck<TallyDbContext>("database");
+        // Registered before data protection so migrations run before the key ring is first read.
         services.AddHostedService<DatabaseInitializer>();
+
+        services.AddDataProtection()
+            .SetApplicationName("Tally")
+            .PersistKeysToDbContext<TallyDbContext>();
+
+        services.AddHealthChecks().AddDbContextCheck<TallyDbContext>("database");
         return services;
     }
 }
