@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/Tally.Domain/Tally.Domain.csproj" />
+    <Project Path="src/Tally.Web/Tally.Web.csproj" />
   </Folder>
 </Solution>

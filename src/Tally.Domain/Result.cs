@@ -3,6 +3,7 @@ namespace Tally.Domain;
 public enum ErrorKind
 {
     Validation,
+    Unauthorized,
     NotFound,
     Forbidden,
     Conflict,
@@ -15,6 +16,7 @@ public enum ErrorKind
 public sealed record Error(string Code, string Message, ErrorKind Kind)
 {
     public static Error Validation(string code, string message) => new(code, message, ErrorKind.Validation);
+    public static Error Unauthorized(string code, string message) => new(code, message, ErrorKind.Unauthorized);
     public static Error NotFound(string code, string message) => new(code, message, ErrorKind.NotFound);
     public static Error Forbidden(string code, string message) => new(code, message, ErrorKind.Forbidden);
     public static Error Conflict(string code, string message) => new(code, message, ErrorKind.Conflict);

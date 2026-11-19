@@ -30,7 +30,10 @@ public sealed record Money
 
     public static IReadOnlyCollection<string> SupportedCurrencies => MinorUnitDigits.Keys;
 
-    public decimal Amount => MinorUnits / Scale(Currency);
+    public decimal Amount => ToAmount(MinorUnits, Currency);
+
+    /// <summary>Converts a stored minor-unit total (for example from a SUM query) back to a decimal amount.</summary>
+    public static decimal ToAmount(long minorUnits, string currency) => minorUnits / Scale(currency);
 
     public static Result<Money> Create(decimal amount, string currency)
     {

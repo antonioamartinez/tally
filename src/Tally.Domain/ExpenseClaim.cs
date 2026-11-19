@@ -97,7 +97,7 @@ public sealed class ExpenseClaim
 
     public Result Approve(Guid reviewerId, string? note, TimeProvider clock)
     {
-        var check = EnsureReviewable(reviewerId);
+        var check = EnsureReviewable(reviewerId, ClaimStatus.Approved);
         if (!check.IsSuccess)
         {
             return check;
@@ -114,7 +114,7 @@ public sealed class ExpenseClaim
 
     public Result Reject(Guid reviewerId, string reason, TimeProvider clock)
     {
-        var check = EnsureReviewable(reviewerId);
+        var check = EnsureReviewable(reviewerId, ClaimStatus.Rejected);
         if (!check.IsSuccess)
         {
             return check;
@@ -148,7 +148,7 @@ public sealed class ExpenseClaim
         return Result.Success();
     }
 
-    private Result EnsureReviewable(Guid reviewerId)
+    private Result EnsureReviewable(Guid reviewerId, ClaimStatus target)
     {
         if (reviewerId == SubmitterId)
         {
@@ -157,7 +157,7 @@ public sealed class ExpenseClaim
 
         return Status == ClaimStatus.Submitted
             ? Result.Success()
-            : InvalidTransition(ClaimStatus.Approved);
+            : InvalidTransition(target);
     }
 
     private void Complete(ClaimStatus status, Guid reviewerId, string? note, TimeProvider clock)
