@@ -76,7 +76,15 @@ public sealed record ClaimResponse(
     DateTime? ReviewedAtUtc,
     string? ReviewNote);
 
-public sealed record PagedResponse<T>(IReadOnlyList<T> Items, int Page, int PageSize, int TotalCount);
+/// <summary>Paging facts without the item type, so one Razor partial can render any pager.</summary>
+public interface IPagedView
+{
+    int Page { get; }
+    int PageSize { get; }
+    int TotalCount { get; }
+}
+
+public sealed record PagedResponse<T>(IReadOnlyList<T> Items, int Page, int PageSize, int TotalCount) : IPagedView;
 
 public sealed record CategoryTotal(ExpenseCategory Category, string Currency, decimal Total, int ClaimCount);
 

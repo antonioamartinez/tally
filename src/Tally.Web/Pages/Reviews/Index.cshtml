@@ -1,0 +1,34 @@
+@page
+@model Tally.Web.Pages.Reviews.IndexModel
+@{
+    ViewData["Title"] = "Review queue";
+}
+<h1>Review queue</h1>
+@if (Model.Queue.TotalCount == 0)
+{
+    <p class="empty">Nothing waiting for review.</p>
+}
+else
+{
+    @foreach (var claim in Model.Queue.Items)
+    {
+        <article class="card review">
+            <header>
+                <strong>@claim.Amount.ToString("N2") @claim.Currency</strong>
+                <span>@claim.Category · @claim.IncurredOn.ToString("yyyy-MM-dd") · @claim.SubmitterName</span>
+            </header>
+            <p>@claim.Description</p>
+            <div class="actions">
+                <form method="post" asp-page-handler="Approve" asp-route-id="@claim.Id">
+                    <input name="note" placeholder="Note (optional)" maxlength="500" />
+                    <button type="submit" class="button">Approve</button>
+                </form>
+                <form method="post" asp-page-handler="Reject" asp-route-id="@claim.Id">
+                    <input name="reason" placeholder="Reason (required)" maxlength="500" required />
+                    <button type="submit" class="button danger">Reject</button>
+                </form>
+            </div>
+        </article>
+    }
+    <partial name="_Pager" model="Model.Queue" />
+}

@@ -1,0 +1,19 @@
+@page
+@model Tally.Web.Pages.Account.LoginModel
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
+@{
+    ViewData["Title"] = "Sign in";
+}
+<h1>Sign in</h1>
+<form method="post" class="card narrow">
+    <div asp-validation-summary="All" class="errors"></div>
+    <label>Email <input asp-for="Input.Email" autocomplete="username" /></label>
+    <label>Password <input asp-for="Input.Password" type="password" autocomplete="current-password" /></label>
+    <input type="hidden" asp-for="ReturnUrl" />
+    <button type="submit" class="button">Sign in</button>
+</form>
+@if (Env.IsDevelopment())
+{
+    <p class="hint">Demo accounts: <code>employee@tally.local</code> and <code>approver@tally.local</code>,
+        password <code>tally-demo-password</code>.</p>
+}

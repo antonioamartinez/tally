@@ -1,0 +1,18 @@
+@model Tally.Web.Application.IPagedView
+@{
+    var pages = (int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize);
+}
+@if (pages > 1)
+{
+    <nav class="pager">
+        @if (Model.Page > 1)
+        {
+            <a asp-route-p="@(Model.Page - 1)">Previous</a>
+        }
+        <span>Page @Model.Page of @pages</span>
+        @if (Model.Page < pages)
+        {
+            <a asp-route-p="@(Model.Page + 1)">Next</a>
+        }
+    </nav>
+}
